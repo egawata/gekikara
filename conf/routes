@@ -5,6 +5,8 @@
 module:testrunner
 
 GET     /                                       App.Index
+GET     /shop/create                            Shop.CreateForm
+POST    /shop/create                            Shop.CreateComplete
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
