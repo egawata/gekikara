@@ -1,0 +1,16 @@
+{{if .errors}}
+<div class="error">
+  <ul>
+    {{range .errors}}
+      <li>{{.Message}}</li>
+    {{end}}
+  </ul>
+</div>
+{{end}}
+
+<form action="/signup" method="POST">
+  ユーザ名: <input type="text" name="username" value="" /><br />
+  パスワード: <input type="password" name="password" value="" /><br />
+  パスワード(確認): <input type="password" name="password_confirm" value="" /><br />
+  <input type="submit" name="submit" value="登録" />
+</form>

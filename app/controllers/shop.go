@@ -19,7 +19,15 @@ func (c *Shop) CreateComplete() revel.Result {
 	c.Params.Bind(&address, "address")
 	c.Params.Bind(&businessHour, "business_hour")
 
-	Db.Create(&models.Shop{Name: name, Address: address, BusinessHour: businessHour})
+	models.Db.Create(&models.Shop{Name: name, Address: address, BusinessHour: businessHour})
+
+	return c.Render()
+}
+
+func (c *Shop) List() revel.Result {
+	var shops []models.Shop
+	models.Db.Find(&shops)
+	c.RenderArgs["shops"] = &shops
 
 	return c.Render()
 }

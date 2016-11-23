@@ -5,8 +5,13 @@
 module:testrunner
 
 GET     /                                       App.Index
+GET     /signup                                 App.SignUp
+POST    /signup                                 App.SignupCheck
 GET     /shop/create                            Shop.CreateForm
 POST    /shop/create                            Shop.CreateComplete
+GET     /shop/list                              Shop.List
+GET     /login                                  App.Login
+POST    /login                                  App.LoginCheck
 
 # Ignore favicon requests
 GET     /favicon.ico                            404
