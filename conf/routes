@@ -12,6 +12,7 @@ POST    /shop/create                            Shop.CreateComplete
 GET     /shop/list                              Shop.List
 GET     /login                                  App.Login
 POST    /login                                  App.LoginCheck
+GET     /logout                                 App.Logout
 
 # Ignore favicon requests
 GET     /favicon.ico                            404

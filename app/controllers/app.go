@@ -3,6 +3,8 @@ package controllers
 import (
 	"github.com/egawata/gekikara/app/models"
 	"github.com/revel/revel"
+	"log"
+	"strconv"
 )
 
 type App struct {
@@ -55,7 +57,7 @@ func (c App) LoginCheck() revel.Result {
 		Password: password,
 	}
 
-	user.ValidateLogin(c.Validation)
+	user = user.ValidateLogin(c.Validation)
 	if c.Validation.HasErrors() {
 		ConvertErrorI18n(c, c.Validation)
 		c.Validation.Keep()
@@ -63,5 +65,14 @@ func (c App) LoginCheck() revel.Result {
 		return c.Redirect(App.Login)
 	}
 
+	c.Session["userId"] = strconv.Itoa(int(user.ID))
+
 	return c.Redirect("/")
+}
+
+func (c App) Logout() revel.Result {
+	delete(c.Session, "userId")
+
+	log.Printf("Logout")
+	return c.Redirect(App.Index)
 }
