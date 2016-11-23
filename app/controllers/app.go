@@ -30,7 +30,9 @@ func (c App) SignUpCheck() revel.Result {
 	}
 
 	user.ValidateSignUp(c.Validation)
+
 	if c.Validation.HasErrors() {
+		ConvertErrorI18n(c, c.Validation)
 		c.Validation.Keep()
 		c.FlashParams()
 		return c.Redirect(App.SignUp)

@@ -1,0 +1,8 @@
+error.required.username=ユーザ名を入力してください
+error.required.password=パスワードを入力してください
+error.minsize.username=ユーザ名は最低4文字以上を指定してください
+error.minsize.password=パスワードは最低4文字以上を指定してください
+error.maxsize.username=ユーザ名は15文字以内で指定してください
+error.maxsize.password=パスワードは15文字以上で指定してください
+error.notmatch.password=パスワードと確認入力が一致しません
+error.alreadyexists.username=ユーザはすでに存在します

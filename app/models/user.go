@@ -21,26 +21,27 @@ type User struct {
 }
 
 func (user User) Validate(v *revel.Validation) {
-	v.Required(user.Name).Message("Please enter a username")
-	v.Required(user.Password).Message("Please enter a password")
-	v.MinSize(user.Name, 4).Message("Username must at lease 4 chars long")
-	v.MinSize(user.Password, 4).Message("Password must at lease 4 chars long")
-	v.MaxSize(user.Name, 15).Message("Username must at most 15 chars long")
-	v.MaxSize(user.Password, 15).Message("Password must at most 15 chars long")
+	//v.Required(user.Name).Message("Please enter a username")
+	v.Required(user.Name).Message("required.username")
+	v.Required(user.Password).Message("required.password")
+	v.MinSize(user.Name, 4).Message("minsize.username")
+	v.MinSize(user.Password, 4).Message("minsize.password")
+	v.MaxSize(user.Name, 15).Message("maxsize.username")
+	v.MaxSize(user.Password, 15).Message("maxsize.password")
 }
 
 func (user User) ValidateSignUp(v *revel.Validation) {
 	user.Validate(v)
 
 	if user.Password != user.PasswordConfirm {
-		v.Error("Passwords do not match")
+		v.Error("notmatch.password")
 	}
 
 	if !v.HasErrors() {
 		Db.Where("name = ?", user.Name).First(&user)
 		log.Printf("User : %#v", user)
 		if user.ID != 0 {
-			v.Error("User %s is already exists", user.Name)
+			v.Error("alreadyexists.username")
 		}
 	}
 }
