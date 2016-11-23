@@ -1,9 +1,14 @@
 package models
 
 import (
+	"crypto/rand"
+	"crypto/sha256"
+	"encoding/binary"
+	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/revel/revel"
 	"log"
+	"strconv"
 )
 
 type User struct {
@@ -38,4 +43,20 @@ func (user User) ValidateSignUp(v *revel.Validation) {
 			v.Error("User %s is already exists", user.Name)
 		}
 	}
+}
+
+func (user User) SignUp() User {
+	var n uint64
+	binary.Read(rand.Reader, binary.LittleEndian, &n)
+	salt := strconv.FormatUint(n, 36)
+
+	orig := user.Password + salt
+	digest := sha256.Sum256([]byte(orig))
+	user.Password = fmt.Sprintf("%s$%x", salt, digest)
+
+	log.Println("Salted: %s", user.Password)
+
+	Db.Create(&user)
+
+	return user
 }

@@ -36,6 +36,8 @@ func (c App) SignUpCheck() revel.Result {
 		return c.Redirect(App.SignUp)
 	}
 
+	user.SignUp()
+
 	return c.Redirect(App.Login)
 }
 
