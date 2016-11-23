@@ -3,7 +3,6 @@ package controllers
 import (
 	"github.com/egawata/gekikara/app/models"
 	"github.com/revel/revel"
-	"log"
 )
 
 type App struct {
@@ -51,7 +50,18 @@ func (c App) LoginCheck() revel.Result {
 	var username, password string
 	c.Params.Bind(&username, "username")
 	c.Params.Bind(&password, "password")
-	log.Printf("Username: %s, Password: %s", username, password)
+	user := models.User{
+		Name:     username,
+		Password: password,
+	}
+
+	user.ValidateLogin(c.Validation)
+	if c.Validation.HasErrors() {
+		ConvertErrorI18n(c, c.Validation)
+		c.Validation.Keep()
+		c.FlashParams()
+		return c.Redirect(App.Login)
+	}
 
 	return c.Redirect("/")
 }

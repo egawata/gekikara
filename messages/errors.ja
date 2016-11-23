@@ -6,3 +6,7 @@ error.maxsize.username=ユーザ名は15文字以内で指定してください
 error.maxsize.password=パスワードは15文字以上で指定してください
 error.notmatch.password=パスワードと確認入力が一致しません
 error.alreadyexists.username=ユーザはすでに存在します
+
+error.invalid.login=ユーザ名またはパスワードが違います
+error.notfound.user=ユーザ名またはパスワードが違います
+

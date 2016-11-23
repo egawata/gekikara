@@ -9,6 +9,7 @@ import (
 	"github.com/revel/revel"
 	"log"
 	"strconv"
+	"strings"
 )
 
 type User struct {
@@ -47,17 +48,49 @@ func (user User) ValidateSignUp(v *revel.Validation) {
 }
 
 func (user User) SignUp() User {
+	user.Password = genSaltPassword(user.Password)
+	Db.Create(&user)
+
+	return user
+}
+
+func (user User) ValidateLogin(v *revel.Validation) User {
+	user.Validate(v)
+
+	copyUser := user
+
+	Db.Where("name = ?", user.Name).Find(&user)
+
+	if user.ID == 0 {
+		v.Error("notfound.user")
+	}
+
+	if user.Password != saltedPassword(copyUser.Password, user.Password) {
+		v.Error("invalid.login")
+	}
+
+	return user
+}
+
+func genSaltPassword(plain string) string {
 	var n uint64
 	binary.Read(rand.Reader, binary.LittleEndian, &n)
 	salt := strconv.FormatUint(n, 36)
 
-	orig := user.Password + salt
+	orig := plain + salt
 	digest := sha256.Sum256([]byte(orig))
-	user.Password = fmt.Sprintf("%s$%x", salt, digest)
+	salted := fmt.Sprintf("%s$%x", salt, digest)
 
-	log.Println("Salted: %s", user.Password)
+	return salted
+}
 
-	Db.Create(&user)
+func saltedPassword(plain string, salted string) string {
+	splitted := strings.Split(salted, "$")
+	salt := splitted[0]
 
-	return user
+	orig := plain + salt
+	digestResult := sha256.Sum256([]byte(orig))
+	saltedResult := fmt.Sprintf("%s$%x", salt, digestResult)
+
+	return saltedResult
 }
