@@ -1,3 +1,6 @@
+{{set . "title" "店舗一覧"}}
+{{template "header.html" .}}
+
 <h2>店舗一覧</h2>
 {{range .shops}}
 <hr>
@@ -6,3 +9,7 @@
   <div>営業時間 : {{.BusinessHour}}</div>
 {{end}}
 <hr>
+
+
+{{template "footer.html" .}}
+

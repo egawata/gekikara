@@ -1,8 +1,6 @@
-<html>
-<head>
-  <title>店舗登録</title>
-</head>
-<body>
+{{set . "title" "店舗登録"}}
+{{template "header.html" .}}
+
   <h1>店舗登録</h1>
   <form name="shop_create" action="/shop/create" method="POST">
     店舗名<input type="text" size="50" name="name" value="" /><br />
@@ -16,4 +14,5 @@
 </body>
 </html>
 
+{{template "footer.html" .}}
 
