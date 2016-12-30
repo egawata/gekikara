@@ -1,18 +1,29 @@
-# Welcome to Revel
+# gekikara - Ultra Hot Shop List
 
 ## Getting Started
 
+This project runs on Revel.
 A high-productivity web framework for the [Go language](http://www.golang.org/).
+
+### Create database
+
+    CREATE DATABASE gekikara DEFAULT CHARSET=utf8;
+
+You need not create tables. GORM will generate tables automatically.
 
 ### Start the web server:
 
-    revel run myapp
+    cd /path/to/project_root
+    export GOPATH=~/go:$(pwd)
+    export PATH=$PATH:$(pwd)/bin
+    revel run github.com/egawata/gekikara
 
    Run with <tt>--help</tt> for options.
 
 ### Go to http://localhost:9000/ and you'll see:
 
-"It works"
+    激辛店リスト
+    ...
 
 ### Description of Contents
 
