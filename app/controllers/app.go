@@ -11,6 +11,29 @@ type App struct {
 	*revel.Controller
 }
 
+func init() {
+	revel.InterceptMethod(App.setLoginUserInfo, revel.AFTER)
+}
+
+func (c App) setLoginUserInfo() revel.Result {
+	userId := c.Session["userId"]
+	log.Printf("UserID = %s", userId)
+	if userId != "" {
+		user := models.User{}
+		userIdInt, err := strconv.Atoi(userId)
+
+		if err == nil {
+			user = user.GetUserById(uint64(userIdInt))
+			if user.ID != 0 {
+				c.RenderArgs["userName"] = user.Name
+				log.Printf("UserName = %s", user.Name)
+			}
+		}
+	}
+
+	return nil
+}
+
 func (c App) Index() revel.Result {
 	return c.Render()
 }

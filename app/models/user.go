@@ -72,6 +72,15 @@ func (user User) ValidateLogin(v *revel.Validation) User {
 	return user
 }
 
+func (user User) GetUserById(userId uint64) User {
+	Db.LogMode(true)
+	Db.Where("id = ?", userId).Find(&user)
+	Db.LogMode(false)
+	log.Printf("User ID = %d", user.ID)
+
+	return user
+}
+
 func genSaltPassword(plain string) string {
 	var n uint64
 	binary.Read(rand.Reader, binary.LittleEndian, &n)

@@ -20,6 +20,11 @@
     <div style="background-color: black; height: 50px;">
       <a href="/">メイン</a>
       <div style="color: #cccccc;">
-        こんにちは、{{.username}}さん
+      {{if .userName}}
+        こんにちは、{{.userName}}さん  <a href="/logout">ログアウト</a>
+      {{else}}
+        <a href="/login">ログイン</a>または
+        <a href="/signup">会員登録</a>
+      {{end}}
       </div>
     </div>
