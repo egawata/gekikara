@@ -45,7 +45,16 @@ func (c *Shop) CreateComplete() revel.Result {
 
 func (c *Shop) List() revel.Result {
 	var shops []models.Shop
-	models.Db.Find(&shops)
+	models.Db.Raw(`
+		SELECT s.id AS id,  
+		       s.name AS name, 
+			   s.address AS address, 
+			   s.business_hour AS business_hour, 
+			   s.post_user_id AS post_user_id,
+			   u.name AS post_user_name
+		  FROM shops s INNER JOIN users u ON (s.post_user_id = u.id)
+		 ORDER BY s.created_at DESC
+	`).Scan(&shops)
 	c.RenderArgs["shops"] = &shops
 
 	return c.Render()
