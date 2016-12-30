@@ -9,4 +9,5 @@ type Shop struct {
 	Name         string `gorm:"type:varchar(255)"`
 	Address      string `gorm:"type:varchar(255)"`
 	BusinessHour string `gorm:"type:varchar(255)"`
+	PostUserId   uint64
 }
